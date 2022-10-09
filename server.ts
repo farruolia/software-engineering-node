@@ -1,3 +1,20 @@
+import UserDao from "./daos/UserDao"
+import TuitDao from "./daos/TuitDao"
+import UserController from "./controllers/UserController"
+import TuitController from "./controllers/TuitController"
+
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    autoIndex: false,
+    maxPoolSize: 10,
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
+    family: 4
+}
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/tuiter', options);
+
 /**
  * @file Implements an Express Node HTTP server.
  */
@@ -12,6 +29,12 @@ app.get('/', (req: Request, res: Response) =>
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!'));
+
+const userDao = new UserDao();
+const userController = new UserController(app, userDao);
+
+const tuitDao = new TuitDao();
+const tuitController = new TuitController(app, tuitDao);
 
 /**
  * Start a server listening at port 4000 locally
