@@ -23,16 +23,16 @@ import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 var cors = require('cors')
 
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    autoIndex: false,
-    maxPoolSize: 10,
-    serverSelectionTimeoutMS: 5000,
-    socketTimeoutMS: 45000,
-    family: 4
-}
-mongoose.connect('mongodb://localhost:27017/tuiter', options);
+// build the connection string
+const PROTOCOL = "mongodb+srv";
+const DB_USERNAME = "farruolia";
+const DB_PASSWORD = "farruolia98";
+const HOST = "cluster0.xyj3lm6.mongodb.net";
+const DB_NAME = "tuiterDB";
+const DB_QUERY = "retryWrites=true&w=majority";
+const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
+// connect to the database
+mongoose.connect(connectionString);
 
 const app = express();
 app.use(express.json());
