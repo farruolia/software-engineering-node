@@ -35,8 +35,8 @@ export default class BookmarkController implements BookmarkControllerI {
     public static getInstance = (app: Express): BookmarkController => {
         if (BookmarkController.bookmarkController === null) {
             BookmarkController.bookmarkController = new BookmarkController();
-            app.post("/api/bookmarks/:tid/user/:uid", BookmarkController.bookmarkController.userBookmarksTuit);
-            app.delete("/api/unbookmarks/:tid/user/:uid", BookmarkController.bookmarkController.userUnbookmarksTuit);
+            app.post("/api/user/:uid/bookmarks/:tid", BookmarkController.bookmarkController.userBookmarksTuit);
+            app.delete("/api/user/:uid/unbookmarks/:tid", BookmarkController.bookmarkController.userUnbookmarksTuit);
             app.get("/api/users/:uid/bookmarks", BookmarkController.bookmarkController.findTuitsBookmarkedByUser);
         }
         return BookmarkController.bookmarkController;
@@ -53,7 +53,7 @@ export default class BookmarkController implements BookmarkControllerI {
      * database
      */
     userBookmarksTuit = (req: Request, res: Response) =>
-        BookmarkController.bookmarkDao.userBookmarksTuit(req.params.tid, req.params.uid)
+        BookmarkController.bookmarkDao.userBookmarksTuit(req.params.uid, req.params.tid)
             .then(bookmarks => res.json(bookmarks));
 
     /**
@@ -64,7 +64,7 @@ export default class BookmarkController implements BookmarkControllerI {
      * on whether un-bookmarking the tuit was successful or not
      */
     userUnbookmarksTuit = (req: Request, res: Response) =>
-        BookmarkController.bookmarkDao.userUnbookmarksTuit(req.params.tid, req.params.uid)
+        BookmarkController.bookmarkDao.userUnbookmarksTuit(req.params.uid, req.params.tid)
             .then(status => res.send(status));
 
     /**

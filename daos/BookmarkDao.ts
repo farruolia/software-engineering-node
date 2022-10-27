@@ -34,7 +34,7 @@ export default class BookmarkDao implements BookmarkDaoI {
      * @param {string} uid User id who bookmarks
      * @returns Promise To be notified when bookmark is inserted into the database
      */
-    userBookmarksTuit = async (tid: string, uid: string): Promise<Bookmark> =>
+    userBookmarksTuit = async (uid: string, tid: string): Promise<Bookmark> =>
         BookmarkModel
             .create({bookmarkedTuit: tid, bookmarkedBy: uid})
             .catch(error => error);
@@ -45,7 +45,7 @@ export default class BookmarkDao implements BookmarkDaoI {
      * @param {string} uid User who bookmarked the tuit
      * @returns Promise To be notified when bookmark is removed from the database
      */
-    userUnbookmarksTuit = async (tid: string, uid: string): Promise<any> =>
+    userUnbookmarksTuit = async (uid: string, tid: string): Promise<any> =>
         BookmarkModel
             .deleteOne({bookmarkedTuit: tid, bookmarkedBy: uid})
             .catch(error => error);
