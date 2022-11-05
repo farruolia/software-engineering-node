@@ -94,4 +94,13 @@ export default class TuitDao implements TuitDaoI{
         TuitModel
             .deleteOne({_id: tid})
             .catch(error => error);
+
+    /**
+     * Removes all tuits from the database.
+     * @returns Promise To be notified when tuits are removed from the database
+     */
+    deleteAllTuits = async (): Promise<any> =>
+        TuitModel
+            .deleteMany({})
+            .catch(error => error);
 }
