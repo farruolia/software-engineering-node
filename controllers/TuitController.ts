@@ -44,6 +44,15 @@ export default class TuitController implements TuitControllerI {
             app.delete("/api/tuits/:tid", TuitController.tuitController.deleteTuit);
 
             //for testing. Not RESTful
+            // for testing. Not RESTful
+            app.get("/api/users/create",
+                TuitController.tuitController.);
+            app.get("/api/users/id/:uid/delete",
+                UserController.userController.deleteUser);
+            app.get("/api/users/username/:username/delete",
+                UserController.userController.deleteUsersByUsername);
+            app.get("/api/users/delete",
+                UserController.userController.deleteAllUsers);
             app.delete("/api/users/:uid/tuits",TuitController.tuitController.deleteTuitByUser);
         }
         return TuitController.tuitController;
