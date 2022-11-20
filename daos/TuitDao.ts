@@ -103,4 +103,16 @@ export default class TuitDao implements TuitDaoI{
         TuitModel
             .deleteMany({postedBy: uid})
             .catch(error => error);
+
+    /**
+     * Updates stats of the tuit.
+     * @param {string} tid Primary key of tuit to be updated
+     * @param newStats Object that contains stats
+     * @returns Promise To be notified when tuit is updated
+     */
+    updateLikes = async (tid: string, newStats: any) =>
+            TuitModel.updateOne(
+                {_id: tid},
+                {$set: {stats: newStats}})
+                .catch(error => error);
 }

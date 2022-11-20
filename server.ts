@@ -21,6 +21,7 @@ import LikeController from "./controllers/LikeController";
 import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
+import AuthenticationController from "./controllers/AuthController";
 var cors = require('cors')
 
 // build the connection string
@@ -35,14 +36,32 @@ const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${
 mongoose.connect(connectionString);
 
 const app = express();
+const session = require("express-session");
 app.use(express.json());
-app.use(cors());
-
+const corsConfig = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+};
+app.use(cors(corsConfig));
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome!'));
 
 app.get('/add/:a/:b', (req: Request, res: Response) =>
     res.send(req.params.a + req.params.b));
+
+let sess = {
+    secret: "SECRET",
+    cookie: {
+        secure: false
+    }
+}
+
+if (process.env.ENV === 'PRODUCTION') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+
+app.use(session(sess));
 
 /**
  * create RESTful Web service API
@@ -53,6 +72,7 @@ const likeController = LikeController.getInstance(app);
 const followController = FollowController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
+const authenticationController = AuthenticationController.getInstance(app);
 
 /**
  * Start a server listening at port 4000 locally

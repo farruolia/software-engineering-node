@@ -17,6 +17,11 @@ export default interface Tuit {
     tuit: string,
     postedBy: User,
     postedOn?: Date,
+    stats: {
+        replies: Number,
+        retuits: Number,
+        likes: Number,
+    },
     image?: String,
     youtube?: String,
     avatarLogo?: String,

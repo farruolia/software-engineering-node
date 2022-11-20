@@ -18,6 +18,20 @@ const TuitSchema = new mongoose.Schema<Tuit>({
         type: Date,
         default: Date.now
     },
+    stats: {
+        replies: {
+            type: Number,
+            default: 0
+        },
+        retuits: {
+            type: Number,
+            default: 0
+        },
+        likes: {
+            type: Number,
+            default: 0
+        }
+    },
     image: String,
     youtube: String,
     avatarLogo: String,
