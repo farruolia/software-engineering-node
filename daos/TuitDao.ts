@@ -32,12 +32,12 @@ export default class TuitDao implements TuitDaoI{
      * Uses TuitModel to retrieve all tuits
      * @returns Promise To be notified when the tuits are retrieved from the database
      */
-    findAllTuits = async (): Promise<Tuit[]> =>
-        TuitModel.find()
+    findAllTuits = async (): Promise<Tuit[]> => {
+        return TuitModel.find()
             .populate("postedBy")
             .exec()
             .catch(error => error);
-
+    }
 
     /**
      * Uses TuitModel to retrieve all tuits by a user

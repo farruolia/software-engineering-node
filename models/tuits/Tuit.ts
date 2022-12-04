@@ -8,6 +8,7 @@ import User from "../users/User";
  * @property {String} tuit Tuit posted by a user
  * @property {User} postedBy User who posted the tuit
  * @property {Date} postedOn Date on which user posted tuit
+ * @property {Object} stats Statistics of each tuit
  * @property {String} image Image posted with tuit
  * @property {String} youtube Youtube link posted with tuit
  * @property {String} avatarLogo User's avatar logo
@@ -21,6 +22,7 @@ export default interface Tuit {
         replies: Number,
         retuits: Number,
         likes: Number,
+        dislikes: Number,
     },
     image?: String,
     youtube?: String,

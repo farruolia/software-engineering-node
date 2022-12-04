@@ -69,12 +69,10 @@ export default class TuitController implements TuitControllerI {
      * body formatted as JSON arrays containing the tuit objects
      */
     findAllTuitsByUser = (req: Request, res: Response) => {
-        console.log("HELLOOOOO");
         // @ts-ignore
         let userId = req.params.uid === "me" && req.session['profile'] ? req.session['profile']._id : req.params.uid;
-        console.log(userId);
         TuitController.tuitDao.findAllTuitsByUser(userId)
-            .then((tuits: Tuit[]) => res.json(tuits));
+            .then((tuits) => res.json(tuits));
     }
 
     /**
