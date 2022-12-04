@@ -5,6 +5,7 @@ import {Express, Request, Response} from "express";
 import DislikeControllerI from "../interfaces/dislikes/DislikeController";
 import DislikeDao from "../daos/DislikeDao";
 import TuitDao from "../daos/TuitDao";
+import LikeDao from "../daos/LikeDao";
 
 /**
  * @class DislikeController Implements RESTful Web service API for dislikes resource.
@@ -112,9 +113,13 @@ export default class DislikeController implements DislikeControllerI {
                 tuit.stats.dislikes = howManyDislikedTuit - 1;
             } else {
                 await DislikeController.dislikeDao.userDislikesTuit(userId, tid);
+                //await LikeDao.getInstance().userUnlikesTuit(userId, tid);
                 tuit.stats.dislikes = howManyDislikedTuit + 1;
+                //tuit.stats.likes = tuit.stats.likes == 1 ? 0 : tuit.stats.likes;
+                await LikeDao.getInstance().userUnlikesTuit(userId, tid);
+                tuit.stats.likes = await LikeDao.getInstance().countHowManyLikedTuit(tid);
             }
-            await DislikeController.tuitDao.updateDislikes(tid, tuit.stats);
+            await DislikeController.tuitDao.updateLikes(tid, tuit.stats);
             res.sendStatus(200);
         } catch (e) {
             res.sendStatus(404);
