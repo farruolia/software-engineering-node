@@ -74,7 +74,7 @@ export default class DislikeController implements DislikeControllerI {
         const profile = req.session['profile'];
         const userId = uid === "me" && profile ? profile._id : uid;
 
-        DislikeController.dislikeDao.findAllTuitsDislikedByUser(req.params.uid)
+        DislikeController.dislikeDao.findAllTuitsDislikedByUser(userId)
             .then(dislikes => {
                 const dislikesNonNullTuits =
                     dislikes.filter(dislike => dislike.tuit);
