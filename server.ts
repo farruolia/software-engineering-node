@@ -23,7 +23,7 @@ import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 import AuthenticationController from "./controllers/AuthController";
 import DislikeController from "./controllers/DislikeController";
-
+var cors = require('cors')
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
@@ -36,26 +36,19 @@ const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${
 // connect to the database
 mongoose.connect(connectionString);
 
-var cors = require('cors')
-const corsConfig = {
-    origin:'*',
-    credentials:true,
-    optionSuccessStatus:200,
-};
-
-const session = require("express-session");
 const app = express();
-app.use(cors(corsConfig));
+const session = require("express-session");
 app.use(express.json());
-const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    autoIndex: false,
-    maxPoolSize: 10,
-    serverSelectionTimeoutMS: 5000,
-    socketTimeoutMS: 45000,
-    family: 4
-}
+const corsConfig = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+};
+app.use(cors(corsConfig));
+app.get('/', (req: Request, res: Response) =>
+    res.send('Welcome!'));
+
+app.get('/add/:a/:b', (req: Request, res: Response) =>
+    res.send(req.params.a + req.params.b));
 
 let sess = {
     secret: "SECRET",
