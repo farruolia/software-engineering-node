@@ -38,8 +38,9 @@ mongoose.connect(connectionString);
 
 var cors = require('cors')
 const corsConfig = {
-    credentials: true,
-    origin: 'https://farruolia-tuiter-backend.herokuapp.com/'
+    origin:'*',
+    credentials:true,
+    optionSuccessStatus:200,
 };
 
 const session = require("express-session");
