@@ -23,7 +23,8 @@ import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 import AuthenticationController from "./controllers/AuthController";
 import DislikeController from "./controllers/DislikeController";
-var cors = require('cors')
+const cors = require("cors");
+const session = require("express-session");
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
@@ -37,33 +38,31 @@ const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${
 mongoose.connect(connectionString);
 
 const app = express();
-const session = require("express-session");
-app.use(express.json());
-const corsConfig = {
-    origin: 'http://localhost:3000',
-    credentials: true,
+app.use(cors({ credentials: true, origin: true }));
+
+let sess = {
+    // secret: process.env.EXPRESS_SESSION_SECRET,
+    secret: "Ssdsd@#e$#Rfe@#$d#$#",
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "production",
+    },
 };
-app.use(cors(corsConfig));
+
+if (process.env.NODE_ENV === "production") {
+    app.set("trust proxy", 1); // trust first proxy
+}
+
+app.use(session(sess));
+app.use(express.json());
+
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome!'));
 
 app.get('/add/:a/:b', (req: Request, res: Response) =>
     res.send(req.params.a + req.params.b));
-
-let sess = {
-    secret: "SECRET",
-    cookie: {
-        secure: false
-    }
-}
-
-if (process.env.ENV === 'PRODUCTION') {
-    app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
-}
-
-app.use(session(sess));
-
 /**
  * create RESTful Web service API
  */
